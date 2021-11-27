@@ -11,7 +11,7 @@ G_NAME="pi"
 # USB vendor/product IDs to use
 G_VID='0x1d6b' # Linux Foundation
 G_PID='0x0104' # Multifunction Composite Gadget
-G_REV='0x0100' # v1.0.0
+G_REV='0x0110' # v1.1.0
 G_USB='0x0200' # USB 2.0
 
 # description strings
@@ -94,19 +94,35 @@ echo $G_DEV_MAC  > functions/rndis.usb0/dev_addr
 echo 'RNDIS'   > functions/rndis.usb0/os_desc/interface.rndis/compatible_id
 echo '5162001' > functions/rndis.usb0/os_desc/interface.rndis/sub_compatible_id
 
+echo "Creating ECM function"
+# CDC ECM
+mkdir -p functions/ecm.usb0
+echo $G_HOST_MAC > functions/ecm.usb0/host_addr
+echo $G_DEV_MAC  > functions/ecm.usb0/dev_addr
+
 echo "Creating serial function"
 mkdir functions/acm.usb0
 
-echo "Creating gadget configuration"
+echo "Creating gadget configuration 1"
 mkdir configs/c.1
-mkdir configs/c.1/strings/$G_LANG
+mkdir -p configs/c.1/strings/$G_LANG
 echo "ACM+RNDIS" > configs/c.1/strings/$G_LANG/configuration
 echo 500 > configs/c.1/MaxPower
 echo 128 > configs/c.1/bmAttributes
 
-ln -s functions/rndis.usb0 configs/c.1
-ln -s functions/acm.usb0 configs/c.1
+ln -s functions/rndis.usb0 configs/c.1/rndis.usb0
+ln -s functions/acm.usb0 configs/c.1/acm.usb0
 ln -s configs/c.1 os_desc/c.1
+
+echo "Creating gadget configuration 2"
+mkdir configs/c.2
+mkdir -p configs/c.2/$G_LANG
+echo "ACM+ECM" > configs/c.2/strings/$G_LANG/configuration
+echo 500 > configs/c.2/MaxPower
+echo 128 > configs/c.2/bmAttributes
+
+ln -s functions/ecm.usb0 configs/c.2/ecm.usb0
+ln -s functions/acm.usb0 configs/c.2/acm.usb0
 
 echo "Attaching gadget"
 udevadm settle -t 5 || true

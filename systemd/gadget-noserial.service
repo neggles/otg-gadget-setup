@@ -1,0 +1,12 @@
+[Unit]
+Description=USB Gadget Setup
+After=systemd-modules-load.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/gadget-dual up
+ExecStop=/usr/local/sbin/gadget-dual down
+RemainAfterExit=true
+
+[Install]
+WantedBy=sysinit.target
