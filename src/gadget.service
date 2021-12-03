@@ -4,8 +4,8 @@ After=systemd-modules-load.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/sbin/gadget-dual up
-ExecStop=/usr/local/sbin/gadget-dual down
+# Make sure you set the path you installed the script to here.
+ExecStart=
 RemainAfterExit=true
 
 [Install]
