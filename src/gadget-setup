@@ -73,6 +73,7 @@ echo "$G_USB" > bcdUSB
 mkdir "strings/$G_LANG"
 echo "$G_MANUFACTURER" > "strings/$G_LANG/manufacturer"
 echo "$G_PRODUCT"      > "strings/$G_LANG/product"
+echo "$G_SERIALNO"     > "strings/$G_LANG/serialnumber"
 
 echo "Configuring gadget as composite device"
 # https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-common-class-generic-parent-driver
@@ -126,7 +127,7 @@ ln -s functions/acm.usb0 configs/c.2/acm.usb0
 
 echo "Attaching gadget"
 udevadm settle -t 5 || true
-ls /sys/class/udc/ > UDC
+ls /sys/class/udc > UDC
 
 echo "Starting getty"
 systemctl start getty@ttyGS0.service
