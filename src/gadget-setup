@@ -116,7 +116,7 @@ ln -s configs/c.1 os_desc/c.1
 
 echo "Creating gadget configuration 2"
 mkdir configs/c.2
-mkdir -p configs/c.2/$G_LANG
+mkdir -p configs/c.2/strings/$G_LANG
 echo "ACM+ECM" > configs/c.2/strings/$G_LANG/configuration
 echo 500 > configs/c.2/MaxPower
 echo 128 > configs/c.2/bmAttributes
